@@ -1,5 +1,6 @@
 import React from "react";
 import {BrowserRouter, Route} from 'react-router-dom'
+import CartScreen from "./screens/CartScreen";
 import HomeScreen from "./screens/HomeScreen";
 import ProductScreen from "./screens/ProductScreen";
 
@@ -9,7 +10,7 @@ function App() {
     <div className="grid-container">
       <header className="row">
         <div>
-          <a className="brand" href="index.html">
+          <a className="brand" href="/">
             amazona
           </a>
         </div>
@@ -23,6 +24,7 @@ function App() {
       <main>
       <Route path="/product/:id" component={ProductScreen} />
       <Route path="/" component={HomeScreen} exact />
+      <Route path="/cart/:id?" component={CartScreen} />
  
       </main>
 
