@@ -1,27 +1,29 @@
 import express from 'express';
-import { data } from './data.js';
+import mongoose from 'mongoose';
+import userRouter from './routers/userRouter.js';
+import productRouter from './routers/productRouter.js';
+
+
+mongoose.connect(process.env.MONGODB_URL || "mongodb://localhost/amazona", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+})
 
 const app = express();
 
 
-app.get('/api/products/:id', (req, res)=>{
-    const id = req.params.id;
-    const product = data.products.find(x => x._id === id)
-    if(product){
-        res.send(product)
-    }else{
-        res.status(404).send({message: 'Product not Found'});
-    }
-})
-
-app.get('/api/products', (req, res)=>{
-    const {products} = data
-    res.send(products)
-})
+app.use('/api/users', userRouter);
+app.use('/api/products', productRouter);
 
 app.get('/', (req, res)=>{
     res.send('Server is ready')
 });
+
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) =>{
+    res.status(500).send({message: err.message});
+})
 
 const port = process.env.PORT || 5000
 
